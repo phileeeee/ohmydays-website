@@ -439,5 +439,25 @@ function debounce(func, wait) {
   };
 }
 
+// Floating Cards - Bring to Front
+let currentZIndex = 100;
+
+function bringToFront(card) {
+  // Remove front class from all cards
+  document.querySelectorAll('.floating-card').forEach(c => {
+    c.classList.remove('front');
+  });
+
+  // Add front class and increment z-index
+  currentZIndex++;
+  card.style.zIndex = currentZIndex;
+  card.classList.add('front');
+
+  // Remove front class after animation
+  setTimeout(() => {
+    card.classList.remove('front');
+  }, 2000);
+}
+
 // Start app
 document.addEventListener('DOMContentLoaded', init);
