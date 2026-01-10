@@ -439,25 +439,91 @@ function debounce(func, wait) {
   };
 }
 
-// Floating Cards - Bring to Front
+// Floating Cards - Drag and Drop
 let currentZIndex = 100;
+let draggedCard = null;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
 
-function bringToFront(card) {
-  // Remove front class from all cards
-  document.querySelectorAll('.floating-card').forEach(c => {
-    c.classList.remove('front');
+function initFloatingCards() {
+  const cards = document.querySelectorAll('.floating-card');
+
+  cards.forEach(card => {
+    // Mouse events
+    card.addEventListener('mousedown', startDrag);
+
+    // Touch events
+    card.addEventListener('touchstart', startDrag, { passive: false });
   });
 
-  // Add front class and increment z-index
+  // Global mouse/touch move and end
+  document.addEventListener('mousemove', drag);
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchmove', drag, { passive: false });
+  document.addEventListener('touchend', endDrag);
+}
+
+function startDrag(e) {
+  e.preventDefault();
+  draggedCard = e.currentTarget;
+
+  // Bring to front
+  currentZIndex++;
+  draggedCard.style.zIndex = currentZIndex;
+  draggedCard.classList.add('dragging');
+  draggedCard.classList.add('front');
+
+  // Get initial position
+  const rect = draggedCard.getBoundingClientRect();
+  const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+  const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+
+  dragOffsetX = clientX - rect.left;
+  dragOffsetY = clientY - rect.top;
+
+  // Convert to absolute positioning if using right/percentage
+  draggedCard.style.left = rect.left + 'px';
+  draggedCard.style.top = rect.top + 'px';
+  draggedCard.style.right = 'auto';
+}
+
+function drag(e) {
+  if (!draggedCard) return;
+  e.preventDefault();
+
+  const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+  const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+  const newX = clientX - dragOffsetX;
+  const newY = clientY - dragOffsetY;
+
+  draggedCard.style.left = newX + 'px';
+  draggedCard.style.top = newY + 'px';
+}
+
+function endDrag() {
+  if (draggedCard) {
+    draggedCard.classList.remove('dragging');
+
+    // Keep front class briefly then remove
+    setTimeout(() => {
+      if (draggedCard) {
+        draggedCard.classList.remove('front');
+      }
+    }, 500);
+
+    draggedCard = null;
+  }
+}
+
+// Legacy click handler (for non-drag clicks)
+function bringToFront(card) {
   currentZIndex++;
   card.style.zIndex = currentZIndex;
-  card.classList.add('front');
-
-  // Remove front class after animation
-  setTimeout(() => {
-    card.classList.remove('front');
-  }, 2000);
 }
 
 // Start app
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  initFloatingCards();
+});
