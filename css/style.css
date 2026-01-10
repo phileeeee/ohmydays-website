@@ -128,10 +128,13 @@ html, body {
   letter-spacing: 0.02em;
 }
 
-/* Card positions - Left Side (scattered) */
+/* Card positions - relative to center (pushes away on resize) */
+/* Left cards: calc(50% - safe_zone - offset) */
+/* Safe zone = 280px (half of form ~480px + padding) */
+
 .card-left-1 {
   top: 3%;
-  left: 1%;
+  left: calc(50% - 280px - 220px);
   transform: rotate(-15deg);
   animation-delay: 0s;
   z-index: 5;
@@ -139,7 +142,7 @@ html, body {
 
 .card-left-2 {
   top: 18%;
-  left: 12%;
+  left: calc(50% - 280px - 140px);
   transform: rotate(8deg);
   animation-delay: 0.7s;
   z-index: 4;
@@ -147,7 +150,7 @@ html, body {
 
 .card-left-3 {
   top: 38%;
-  left: 2%;
+  left: calc(50% - 280px - 200px);
   transform: rotate(-4deg);
   animation-delay: 1.4s;
   z-index: 6;
@@ -155,7 +158,7 @@ html, body {
 
 .card-left-4 {
   top: 55%;
-  left: 10%;
+  left: calc(50% - 280px - 120px);
   transform: rotate(12deg);
   animation-delay: 2.1s;
   z-index: 2;
@@ -163,16 +166,16 @@ html, body {
 
 .card-left-5 {
   top: 75%;
-  left: 4%;
+  left: calc(50% - 280px - 180px);
   transform: rotate(-18deg);
   animation-delay: 2.8s;
   z-index: 3;
 }
 
-/* Card positions - Right Side (scattered) */
+/* Right cards: calc(50% - safe_zone - offset) from right */
 .card-right-1 {
   top: 6%;
-  right: 8%;
+  right: calc(50% - 280px - 160px);
   transform: rotate(14deg);
   animation-delay: 0.35s;
   z-index: 4;
@@ -180,7 +183,7 @@ html, body {
 
 .card-right-2 {
   top: 24%;
-  right: 1%;
+  right: calc(50% - 280px - 220px);
   transform: rotate(-10deg);
   animation-delay: 1.05s;
   z-index: 6;
@@ -188,7 +191,7 @@ html, body {
 
 .card-right-3 {
   top: 42%;
-  right: 11%;
+  right: calc(50% - 280px - 130px);
   transform: rotate(6deg);
   animation-delay: 1.75s;
   z-index: 3;
@@ -196,7 +199,7 @@ html, body {
 
 .card-right-4 {
   top: 62%;
-  right: 2%;
+  right: calc(50% - 280px - 200px);
   transform: rotate(-14deg);
   animation-delay: 2.45s;
   z-index: 5;
@@ -204,7 +207,7 @@ html, body {
 
 .card-right-5 {
   top: 82%;
-  right: 9%;
+  right: calc(50% - 280px - 150px);
   transform: rotate(20deg);
   animation-delay: 3.15s;
   z-index: 2;
@@ -256,7 +259,7 @@ html, body {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1400px) {
   .floating-card {
     width: 160px;
     height: 220px;
@@ -269,18 +272,6 @@ html, body {
   .floating-card .card-title {
     font-size: 12px;
   }
-
-  /* More spread on larger screens */
-  .card-left-1 { left: 5%; }
-  .card-left-2 { left: 8%; }
-  .card-left-3 { left: 6%; }
-  .card-left-4 { left: 9%; }
-  .card-left-5 { left: 5%; }
-  .card-right-1 { right: 6%; }
-  .card-right-2 { right: 9%; }
-  .card-right-3 { right: 5%; }
-  .card-right-4 { right: 8%; }
-  .card-right-5 { right: 7%; }
 }
 
 .logo {
