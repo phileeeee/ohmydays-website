@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OhMyDays - Count the days that matter</title>
-  <meta name="description" content="A beautiful way to countdown to all the events that matter to you. Create stunning countdowns with photos.">
+  <title>OhMyDays - Every moment counts</title>
+  <meta name="description" content="Track the events that matter most to you. Create beautiful countdowns and count-ups with photos.">
   <meta name="theme-color" content="#000000">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="OhMyDays - Count the days that matter">
-  <meta property="og:description" content="A beautiful way to countdown to all the events that matter to you.">
+  <meta property="og:title" content="OhMyDays - Every moment counts">
+  <meta property="og:description" content="Track the events that matter most to you.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ohmydays.app">
 
@@ -26,6 +26,45 @@
 <body>
   <!-- Step 1: Landing / Create Event -->
   <div id="step-landing" class="step active">
+    <!-- Floating Cards Background -->
+    <div class="floating-cards">
+      <div class="floating-card card-1">
+        <div class="card-inner" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+          <span class="card-days">14</span>
+          <span class="card-label">DAYS TO GO</span>
+          <span class="card-title">Birthday</span>
+        </div>
+      </div>
+      <div class="floating-card card-2">
+        <div class="card-inner" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+          <span class="card-days">52</span>
+          <span class="card-label">DAYS TO GO</span>
+          <span class="card-title">Vacation</span>
+        </div>
+      </div>
+      <div class="floating-card card-3">
+        <div class="card-inner" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+          <span class="card-days">128</span>
+          <span class="card-label">DAYS SINCE</span>
+          <span class="card-title">Baby Oliver</span>
+        </div>
+      </div>
+      <div class="floating-card card-4">
+        <div class="card-inner" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+          <span class="card-days">7</span>
+          <span class="card-label">DAYS TO GO</span>
+          <span class="card-title">Anniversary</span>
+        </div>
+      </div>
+      <div class="floating-card card-5">
+        <div class="card-inner" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+          <span class="card-days">365</span>
+          <span class="card-label">DAYS SINCE</span>
+          <span class="card-title">New Job</span>
+        </div>
+      </div>
+    </div>
+
     <div class="landing-container">
       <div class="logo">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -36,18 +75,18 @@
         </svg>
       </div>
 
-      <h1 class="headline">The days you<br>will remember</h1>
-      <p class="subheadline">A beautiful way to countdown to all the events that matter to you</p>
+      <h1 class="headline">Every moment counts</h1>
+      <p class="subheadline">Track the events that matter most to you</p>
 
       <div class="create-form">
         <div class="input-group">
-          <label for="event-title">What are you counting down to?</label>
+          <label for="event-title">Give your event a name</label>
           <input type="text" id="event-title" placeholder="My Birthday" maxlength="30" autocomplete="off">
           <span class="char-count"><span id="char-current">0</span>/30</span>
         </div>
 
         <div class="input-group">
-          <label for="event-date">When is it?</label>
+          <label for="event-date">Date</label>
           <input type="date" id="event-date">
         </div>
 
@@ -57,12 +96,7 @@
       <div class="app-download">
         <p>Get the full experience</p>
         <a href="#" class="app-store-badge">
-          <svg viewBox="0 0 120 40" width="120" height="40">
-            <rect width="120" height="40" rx="6" fill="#000"/>
-            <text x="42" y="12" fill="#fff" font-size="7" font-family="Inter, sans-serif">Download on the</text>
-            <text x="42" y="26" fill="#fff" font-size="12" font-weight="600" font-family="Inter, sans-serif">App Store</text>
-            <text x="14" y="26" fill="#fff" font-size="20"></text>
-          </svg>
+          <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" height="40">
         </a>
       </div>
     </div>
@@ -78,7 +112,7 @@
             <polyline points="12 19 5 12 12 5"></polyline>
           </svg>
         </button>
-        <h2>Choose a background</h2>
+        <h2>Add background</h2>
         <div class="spacer"></div>
       </div>
 
@@ -87,28 +121,72 @@
         <div class="preview-content">
           <div class="countdown-display">
             <div class="countdown-number" id="preview-days">0</div>
-            <div class="countdown-label">DAYS TO GO</div>
+            <div class="countdown-label" id="preview-label">DAYS TO GO</div>
           </div>
           <div class="event-title" id="preview-title">Event</div>
         </div>
       </div>
 
-      <!-- Unsplash Search -->
-      <div class="unsplash-section">
-        <div class="search-bar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" id="unsplash-search" placeholder="Search photos...">
+      <!-- Background Options -->
+      <div class="background-options">
+        <!-- My Photos Section -->
+        <div class="option-section">
+          <div class="option-row" id="upload-trigger">
+            <div class="option-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+            <div class="option-text">
+              <span class="option-title">My Photos</span>
+              <span class="option-subtitle">Select from your device</span>
+            </div>
+          </div>
+          <input type="file" id="file-input" accept="image/*" hidden>
         </div>
 
-        <div class="photo-grid" id="photo-grid">
-          <div class="photo-loading">Loading photos...</div>
+        <!-- Unsplash Section -->
+        <div class="option-section">
+          <div class="option-row">
+            <div class="option-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.5 6.75V0h9v6.75h-9zm9 3.75H24V24H0V10.5h7.5v6.75h9V10.5z"/>
+              </svg>
+            </div>
+            <div class="option-text">
+              <span class="option-title">Unsplash</span>
+              <span class="option-subtitle">Free high-quality photos</span>
+            </div>
+            <button class="search-toggle" id="search-toggle">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Unsplash Search (hidden by default) -->
+          <div class="unsplash-expanded" id="unsplash-expanded">
+            <div class="search-bar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="unsplash-search" placeholder="Search photos...">
+            </div>
+            <div class="photo-grid" id="photo-grid">
+              <div class="photo-loading">Search for photos above</div>
+            </div>
+          </div>
+
+          <!-- Auto-suggested thumbnails -->
+          <div class="unsplash-suggestions" id="unsplash-suggestions"></div>
         </div>
       </div>
 
-      <button id="btn-create" class="btn-primary">Create Countdown</button>
+      <button id="btn-create" class="btn-primary">Create Event</button>
     </div>
   </div>
 
@@ -158,11 +236,7 @@
         <div class="download-prompt">
           <p>Save your countdown in the app</p>
           <a href="#" class="app-store-badge-small">
-            <svg viewBox="0 0 120 40" width="135" height="45">
-              <rect width="120" height="40" rx="6" fill="#000"/>
-              <text x="42" y="12" fill="#fff" font-size="7" font-family="Inter, sans-serif">Download on the</text>
-              <text x="42" y="26" fill="#fff" font-size="12" font-weight="600" font-family="Inter, sans-serif">App Store</text>
-            </svg>
+            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" height="40">
           </a>
         </div>
       </div>

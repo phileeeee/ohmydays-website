@@ -34,9 +34,15 @@ const elements = {
   btnBack: document.getElementById('btn-back'),
   previewCard: document.getElementById('preview-card'),
   previewDays: document.getElementById('preview-days'),
+  previewLabel: document.getElementById('preview-label'),
   previewTitle: document.getElementById('preview-title'),
+  uploadTrigger: document.getElementById('upload-trigger'),
+  fileInput: document.getElementById('file-input'),
+  searchToggle: document.getElementById('search-toggle'),
+  unsplashExpanded: document.getElementById('unsplash-expanded'),
   unsplashSearch: document.getElementById('unsplash-search'),
   photoGrid: document.getElementById('photo-grid'),
+  unsplashSuggestions: document.getElementById('unsplash-suggestions'),
   btnCreate: document.getElementById('btn-create'),
 
   // Step 3: Countdown
@@ -54,18 +60,26 @@ const elements = {
 
 // Initialize
 function init() {
-  // Set default date to tomorrow
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 7);
-  elements.eventDate.value = formatDateForInput(tomorrow);
-  elements.eventDate.min = formatDateForInput(new Date());
+  // Set default date to a week from now
+  const nextWeek = new Date();
+  nextWeek.setDate(nextWeek.getDate() + 7);
+  elements.eventDate.value = formatDateForInput(nextWeek);
+  // No min date - allow past dates for "days since" events
 
   // Event Listeners
   elements.eventTitle.addEventListener('input', handleTitleInput);
   elements.eventDate.addEventListener('change', handleDateChange);
   elements.btnContinue.addEventListener('click', goToStep2);
   elements.btnBack.addEventListener('click', goToStep1);
+
+  // File upload
+  elements.uploadTrigger.addEventListener('click', () => elements.fileInput.click());
+  elements.fileInput.addEventListener('change', handleFileUpload);
+
+  // Unsplash toggle and search
+  elements.searchToggle.addEventListener('click', toggleUnsplashExpanded);
   elements.unsplashSearch.addEventListener('input', debounce(searchPhotos, 500));
+
   elements.btnCreate.addEventListener('click', goToStep3);
   elements.btnNew.addEventListener('click', resetAndStart);
 
@@ -90,11 +104,116 @@ function goToStep2() {
   // Update preview
   updatePreview();
 
-  // Search for photos based on event title
-  elements.unsplashSearch.value = state.eventTitle;
-  searchPhotos();
+  // Load suggested photos based on event title
+  loadSuggestions(state.eventTitle);
 
   showStep(elements.stepBackground);
+}
+
+// File Upload
+function handleFileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    alert('Please select an image file');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const imageUrl = event.target.result;
+    state.selectedPhoto = {
+      urls: {
+        small: imageUrl,
+        regular: imageUrl
+      },
+      isLocal: true
+    };
+
+    // Update preview
+    elements.previewCard.style.backgroundImage = `url(${imageUrl})`;
+    elements.previewCard.classList.add('has-image');
+  };
+  reader.readAsDataURL(file);
+}
+
+// Toggle Unsplash Search
+function toggleUnsplashExpanded() {
+  elements.unsplashExpanded.classList.toggle('active');
+  if (elements.unsplashExpanded.classList.contains('active')) {
+    elements.unsplashSearch.focus();
+  }
+}
+
+// Load Suggestions
+async function loadSuggestions(query) {
+  const searchQuery = query || 'nature';
+
+  try {
+    const response = await fetch(
+      `${UNSPLASH_API_URL}/search/photos?query=${encodeURIComponent(searchQuery)}&per_page=4&orientation=squarish`,
+      {
+        headers: {
+          'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch photos');
+    }
+
+    const data = await response.json();
+    displaySuggestions(data.results);
+  } catch (error) {
+    console.error('Unsplash API error:', error);
+    elements.unsplashSuggestions.innerHTML = '';
+  }
+}
+
+function displaySuggestions(photos) {
+  if (photos.length === 0) {
+    elements.unsplashSuggestions.innerHTML = '';
+    return;
+  }
+
+  elements.unsplashSuggestions.innerHTML = photos.map(photo => `
+    <div class="photo-item" data-photo-id="${photo.id}">
+      <img src="${photo.urls.small}" alt="${photo.alt_description || 'Photo'}" loading="lazy">
+    </div>
+  `).join('');
+
+  // Store photos data for selection
+  elements.unsplashSuggestions.photosData = photos;
+
+  // Add click handlers
+  elements.unsplashSuggestions.querySelectorAll('.photo-item').forEach(item => {
+    item.addEventListener('click', () => selectSuggestionPhoto(item.dataset.photoId));
+  });
+}
+
+function selectSuggestionPhoto(photoId) {
+  const photos = elements.unsplashSuggestions.photosData || [];
+  const photo = photos.find(p => p.id === photoId);
+
+  if (!photo) return;
+
+  state.selectedPhoto = photo;
+
+  // Update selection UI
+  elements.unsplashSuggestions.querySelectorAll('.photo-item').forEach(item => {
+    item.classList.toggle('selected', item.dataset.photoId === photoId);
+  });
+
+  // Clear grid selection
+  elements.photoGrid.querySelectorAll('.photo-item').forEach(item => {
+    item.classList.remove('selected');
+  });
+
+  // Update preview
+  elements.previewCard.style.backgroundImage = `url(${photo.urls.small})`;
+  elements.previewCard.classList.add('has-image');
 }
 
 function goToStep3() {
@@ -135,6 +254,15 @@ function resetAndStart() {
   elements.previewCard.style.backgroundImage = '';
   elements.previewCard.classList.remove('has-image');
 
+  // Reset file input
+  elements.fileInput.value = '';
+
+  // Reset Unsplash UI
+  elements.unsplashExpanded.classList.remove('active');
+  elements.unsplashSearch.value = '';
+  elements.photoGrid.innerHTML = '<div class="photo-loading">Search for photos above</div>';
+  elements.unsplashSuggestions.innerHTML = '';
+
   // Reset countdown background
   elements.countdownContainer.style.backgroundImage = '';
 
@@ -165,7 +293,9 @@ function validateForm() {
 // Preview
 function updatePreview() {
   const days = calculateDays(state.eventDate);
+  const isPast = days < 0;
   elements.previewDays.textContent = Math.abs(days);
+  elements.previewLabel.textContent = isPast ? 'DAYS SINCE' : 'DAYS TO GO';
   elements.previewTitle.textContent = state.eventTitle.toUpperCase();
 }
 
@@ -272,6 +402,11 @@ function selectPhoto(photoId) {
   // Update selection UI
   elements.photoGrid.querySelectorAll('.photo-item').forEach(item => {
     item.classList.toggle('selected', item.dataset.photoId === photoId);
+  });
+
+  // Clear suggestion selection
+  elements.unsplashSuggestions.querySelectorAll('.photo-item').forEach(item => {
+    item.classList.remove('selected');
   });
 
   // Update preview
