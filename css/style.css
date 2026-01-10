@@ -57,10 +57,17 @@ html, body {
 
 /* Floating Cards */
 .floating-cards {
+  display: none;
   position: absolute;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .floating-cards {
+    display: block;
+  }
 }
 
 .floating-card {
