@@ -220,6 +220,9 @@ function goToStep3() {
   // Set background image
   if (state.selectedPhoto) {
     elements.countdownContainer.style.backgroundImage = `url(${state.selectedPhoto.urls.regular})`;
+    elements.countdownContainer.classList.add('has-image');
+  } else {
+    elements.countdownContainer.classList.remove('has-image');
   }
 
   // Set event details
@@ -265,6 +268,7 @@ function resetAndStart() {
 
   // Reset countdown background
   elements.countdownContainer.style.backgroundImage = '';
+  elements.countdownContainer.classList.remove('has-image');
 
   // Validate and go to step 1
   validateForm();

@@ -470,7 +470,7 @@ html, body {
   max-height: 320px;
   border-radius: 16px;
   overflow: hidden;
-  background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 50%, #a8a8a8 100%);
+  background: linear-gradient(135deg, #E8E8E8 0%, #B8C6DB 100%);
   margin-bottom: 24px;
   display: flex;
   align-items: center;
@@ -703,7 +703,7 @@ html, body {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: linear-gradient(135deg, #E8E8E8 0%, #B8C6DB 100%);
   background-size: cover;
   background-position: center;
   position: relative;
@@ -741,7 +741,27 @@ html, body {
   justify-content: center;
   padding: 24px;
   color: #fff;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Default state uses dark text for silver background */
+.countdown-container:not(.has-image) .countdown-main {
+  color: #333;
+  text-shadow: none;
+}
+
+.countdown-container:not(.has-image) .countdown-event-date {
+  background: rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.countdown-container:not(.has-image) .btn-icon-light {
+  background: rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.countdown-container:not(.has-image) .download-prompt {
+  color: #333;
 }
 
 .countdown-time {
