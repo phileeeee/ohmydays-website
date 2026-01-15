@@ -434,6 +434,26 @@ html, body {
   display: inline-block;
 }
 
+/* Landing Footer */
+.landing-footer {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.landing-footer a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.landing-footer a:hover {
+  color: var(--color-text);
+}
+
 /* Step 2: Background Selection */
 .background-container {
   width: 100%;

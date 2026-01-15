@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help & FAQ - OhMyDays</title>
+  <meta name="description" content="Find answers to common questions about OhMyDays - countdown and count-up tracking app.">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Help & FAQ - OhMyDays">
+  <meta property="og:description" content="Find answers to common questions about OhMyDays.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ohmydays.app/help">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --color-bg: #ffffff;
+      --color-text: #000000;
+      --color-text-secondary: #666666;
+      --color-border: #e5e5e5;
+      --color-input-bg: #f5f5f5;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font-family);
+      background: var(--color-bg);
+      color: var(--color-text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Navigation */
+    .nav {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .nav-container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      height: 32px;
+      width: auto;
+    }
+
+    /* Help Container */
+    .help-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--color-text);
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: var(--color-text-secondary);
+    }
+
+    /* Search Box */
+    .search-box {
+      max-width: 600px;
+      margin: 30px auto;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 16px 50px 16px 48px;
+      border: 2px solid var(--color-border);
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: var(--font-family);
+      background-color: var(--color-bg);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-box input:focus {
+      border-color: var(--color-text);
+    }
+
+    .search-box input::placeholder {
+      color: #999;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      pointer-events: none;
+    }
+
+    .search-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--color-border);
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      transition: all 0.2s ease;
+    }
+
+    .clear-search:hover {
+      background: #ccc;
+      color: var(--color-text);
+    }
+
+    .clear-search svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* Categories */
+    .category {
+      margin-bottom: 50px;
+    }
+
+    .category h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: var(--color-text);
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--color-text);
+      font-weight: 700;
+    }
+
+    /* FAQ Items */
+    .faq-item {
+      background: var(--color-input-bg);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.2s ease;
+    }
+
+    .faq-question:hover {
+      background-color: var(--color-border);
+    }
+
+    .faq-question::after {
+      content: '+';
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+      transition: transform 0.3s ease;
+    }
+
+    .faq-question.active::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-answer-content {
+      padding: 0 20px 20px 20px;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    .faq-answer-content p {
+      margin-bottom: 12px;
+    }
+
+    .faq-answer-content ul, .faq-answer-content ol {
+      margin-left: 20px;
+      margin-top: 10px;
+      margin-bottom: 12px;
+    }
+
+    .faq-answer-content li {
+      margin-bottom: 8px;
+    }
+
+    .faq-answer-content strong {
+      color: var(--color-text);
+    }
+
+    /* Contact Section */
+    .contact-section {
+      background: var(--color-text);
+      color: var(--color-bg);
+      padding: 48px 40px;
+      border-radius: 16px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .contact-section h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .contact-section p {
+      margin-bottom: 20px;
+      color: #ccc;
+      font-size: 16px;
+    }
+
+    .contact-section a {
+      color: var(--color-bg);
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .contact-section a:hover {
+      opacity: 0.8;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 30px 0;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--color-text);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-copyright {
+      color: var(--color-text-secondary);
+      font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 36px;
+      }
+
+      .subtitle {
+        font-size: 16px;
+      }
+
+      .help-container {
+        padding: 30px 20px;
+      }
+
+      .contact-section {
+        padding: 36px 24px;
+      }
+
+      .category h2 {
+        font-size: 18px;
+      }
+
+      .faq-question {
+        font-size: 15px;
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.svg" alt="OhMyDays">
+        OhMyDays
+      </a>
+    </div>
+  </nav>
+
+  <div class="help-container">
+    <header>
+      <h1>Help & FAQ</h1>
+      <p class="subtitle">Everything you need to know about OhMyDays</p>
+
+      <div class="search-box">
+        <span class="search-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </span>
+        <input type="text" id="searchInput" placeholder="Search for answers...">
+        <button class="clear-search" id="clearSearch" aria-label="Clear search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Getting Started -->
+    <div class="category">
+      <h2>Getting Started</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">What is OhMyDays?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>OhMyDays is a beautiful countdown and count-up app that helps you track the moments that matter most. Whether you're counting down to a wedding, tracking how long since you started a new job, or remembering a special anniversary, OhMyDays makes it easy and beautiful.</p>
+            <p><strong>Key features include:</strong></p>
+            <ul>
+              <li>Countdown to future events or count up from past dates</li>
+              <li>Add photos from your gallery or choose from beautiful gradients</li>
+              <li>Home screen widgets to see your countdowns at a glance</li>
+              <li>Share beautiful countdown cards to social media</li>
+              <li>Recurring events for birthdays and anniversaries</li>
+              <li>Customizable countdown formats (days, months, or years)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">How do I create my first event?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p><strong>Step 1:</strong> Tap the "+" button on the home screen</p>
+            <p><strong>Step 2:</strong> Enter a title for your event</p>
+            <p><strong>Step 3:</strong> Select the date (and optionally time)</p>
+            <p><strong>Step 4:</strong> Choose a category (Birthday, Anniversary, Travel, etc.)</p>
+            <p><strong>Step 5:</strong> Add a photo or select a gradient background</p>
+            <p><strong>Step 6:</strong> Tap "Create" and you're done!</p>
+            <p>Your event will appear on the home screen, showing the countdown or count-up automatically based on whether the date is in the future or past.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">What's the difference between countdown and count-up?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>OhMyDays automatically determines whether to show a countdown or count-up based on your event date:</p>
+            <ul>
+              <li><strong>Countdown (Days to go):</strong> When your event date is in the future, showing how many days until the event</li>
+              <li><strong>Count-up (Days since):</strong> When your event date is in the past, showing how many days since the event occurred</li>
+            </ul>
+            <p>This happens automatically - just set your date and OhMyDays handles the rest!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Events & Photos -->
+    <div class="category">
+      <h2>Events & Photos</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">How do I add photos to my events?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>You can add photos when creating or editing an event:</p>
+            <ul>
+              <li><strong>From your gallery:</strong> Tap the photo area and select images from your device</li>
+              <li><strong>Gradient backgrounds:</strong> Choose from beautiful pre-made gradient options</li>
+              <li><strong>Category colors:</strong> Each category has a default gradient that matches its theme</li>
+            </ul>
+            <p>Pro users can add multiple photos to create a slideshow effect when viewing the event in full screen.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">How do I edit or delete an event?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p><strong>To edit an event:</strong></p>
+            <ul>
+              <li>Tap on the event card to open full screen view</li>
+              <li>Tap the menu icon (three dots) in the top right</li>
+              <li>Select "Edit Event"</li>
+              <li>Make your changes and tap "Save"</li>
+            </ul>
+            <p><strong>To delete an event:</strong></p>
+            <ul>
+              <li>Open the event in full screen view</li>
+              <li>Tap the menu icon (three dots)</li>
+              <li>Select "Delete Event"</li>
+              <li>Confirm the deletion</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">What are recurring events?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Recurring events automatically repeat on a schedule, perfect for:</p>
+            <ul>
+              <li><strong>Birthdays:</strong> Count down to the next birthday each year</li>
+              <li><strong>Anniversaries:</strong> Track wedding anniversaries, work anniversaries, etc.</li>
+              <li><strong>Annual events:</strong> Holidays, traditions, or any yearly occasion</li>
+            </ul>
+            <p>When you create a recurring event, OhMyDays automatically shows the countdown to the next occurrence and updates after each one passes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Can I change how the countdown is displayed?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Yes! You can customize the countdown format for each event:</p>
+            <ul>
+              <li><strong>Days:</strong> Shows total days (e.g., "365 days to go")</li>
+              <li><strong>Months:</strong> Shows months and days (e.g., "2 months, 15 days to go")</li>
+              <li><strong>Years:</strong> Shows years, months, and days (e.g., "1 year, 3 months, 5 days to go")</li>
+            </ul>
+            <p>To change the format, edit the event and select your preferred countdown format.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Widgets -->
+    <div class="category">
+      <h2>Home Screen Widgets</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">How do I add a widget to my home screen?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p><strong>On iPhone:</strong></p>
+            <ol>
+              <li>Long-press on your home screen until apps jiggle</li>
+              <li>Tap the "+" button in the top left corner</li>
+              <li>Search for "OhMyDays" in the widget gallery</li>
+              <li>Choose your preferred widget size</li>
+              <li>Tap "Add Widget"</li>
+              <li>Position the widget and tap "Done"</li>
+            </ol>
+            <p>After adding, tap the widget to configure which event it displays.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">What widget sizes are available?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>OhMyDays offers several widget sizes:</p>
+            <ul>
+              <li><strong>Small:</strong> Shows one event with countdown</li>
+              <li><strong>Medium:</strong> Shows one event with more detail</li>
+              <li><strong>Large:</strong> Shows one event or multiple events (Pro)</li>
+              <li><strong>Extra Large (iPad):</strong> Shows up to 6 events in a grid (Pro)</li>
+              <li><strong>Lock Screen:</strong> Compact countdown for your lock screen</li>
+            </ul>
+            <p>Multi-event widgets that display multiple countdowns at once are available for Pro subscribers.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Why isn't my widget updating?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Widgets update periodically based on iOS system scheduling. If your widget isn't showing the latest information:</p>
+            <ul>
+              <li><strong>Open the app:</strong> This triggers a widget refresh</li>
+              <li><strong>Wait a few minutes:</strong> iOS batches widget updates to save battery</li>
+              <li><strong>Remove and re-add:</strong> If issues persist, try removing and adding the widget again</li>
+            </ul>
+            <p>Note: iOS controls widget refresh timing to optimize battery life, so updates may not be instant.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sharing -->
+    <div class="category">
+      <h2>Sharing</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">How do I share my countdown?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>OhMyDays lets you create beautiful shareable countdown cards:</p>
+            <ol>
+              <li>Open your event in full screen view</li>
+              <li>Tap the share icon in the top right</li>
+              <li>Choose your preferred template (Portrait, Square, or Story)</li>
+              <li>Customize options like showing the date or watermark</li>
+              <li>Tap "Share" to save or send to your favorite apps</li>
+            </ol>
+            <p>Share to Instagram, WhatsApp, Messages, or save to your camera roll!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">What sharing templates are available?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>OhMyDays offers three beautiful sharing templates:</p>
+            <ul>
+              <li><strong>Portrait (9:16):</strong> Perfect for Instagram Stories and TikTok</li>
+              <li><strong>Square (1:1):</strong> Great for Instagram posts and general sharing</li>
+              <li><strong>Story:</strong> Optimized for social media stories</li>
+            </ul>
+            <p>Each template includes your event photo/gradient, countdown, and event name in a polished design.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OhMyDays Pro -->
+    <div class="category">
+      <h2>OhMyDays Pro</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">What's included in OhMyDays Pro?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>OhMyDays Pro unlocks the full experience:</p>
+            <ul>
+              <li><strong>Unlimited events:</strong> Create as many countdowns as you want (free is limited to 3)</li>
+              <li><strong>Multiple photos per event:</strong> Add a photo slideshow to each event</li>
+              <li><strong>Multi-event widgets:</strong> Display 3-6 events in a single widget</li>
+              <li><strong>Custom fonts:</strong> Personalize your event cards with different fonts</li>
+              <li><strong>No watermark on shares:</strong> Share without the OhMyDays branding</li>
+              <li><strong>Premium backgrounds:</strong> Access exclusive gradient options</li>
+              <li><strong>Priority support:</strong> Get help faster when you need it</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">How much does OhMyDays Pro cost?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>OhMyDays Pro is available with flexible subscription options:</p>
+            <ul>
+              <li><strong>Monthly:</strong> Pay month-to-month with full flexibility</li>
+              <li><strong>Yearly:</strong> Best value - save significantly compared to monthly</li>
+              <li><strong>Lifetime:</strong> One-time purchase for permanent Pro access</li>
+            </ul>
+            <p>All subscriptions are managed through the App Store. Prices may vary by region.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">How do I cancel my subscription?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>You can cancel your subscription anytime through your device settings:</p>
+            <ol>
+              <li>Open the <strong>Settings</strong> app on your iPhone or iPad</li>
+              <li>Tap your name at the top to access your Apple ID</li>
+              <li>Tap <strong>Subscriptions</strong></li>
+              <li>Find and tap <strong>OhMyDays</strong></li>
+              <li>Tap <strong>Cancel Subscription</strong></li>
+              <li>Confirm your cancellation</li>
+            </ol>
+            <p><strong>After canceling:</strong></p>
+            <ul>
+              <li>You keep Pro access until your current billing period ends</li>
+              <li>No further charges will be made</li>
+              <li>Your events and data are preserved</li>
+              <li>You can resubscribe anytime</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">How do I restore my purchase?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>If you've previously purchased OhMyDays Pro and need to restore it:</p>
+            <ol>
+              <li>Open OhMyDays and go to <strong>Settings</strong></li>
+              <li>Tap <strong>OhMyDays Pro</strong></li>
+              <li>Tap <strong>Restore Purchases</strong></li>
+            </ol>
+            <p>The app will check your App Store account and restore your Pro access automatically.</p>
+            <p><strong>Note:</strong> Make sure you're signed in with the same Apple ID used for the original purchase.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Troubleshooting -->
+    <div class="category">
+      <h2>Troubleshooting</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">My photos aren't showing correctly. What should I do?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>If you're having issues with photos:</p>
+            <ul>
+              <li><strong>Check permissions:</strong> Go to Settings > OhMyDays and ensure Photo Library access is enabled</li>
+              <li><strong>Try re-adding:</strong> Edit the event and select the photo again</li>
+              <li><strong>Restart the app:</strong> Close and reopen OhMyDays</li>
+              <li><strong>Check storage:</strong> Ensure your device has enough storage space</li>
+            </ul>
+            <p>If issues persist, try deleting and recreating the event.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">The app is running slowly. How can I fix it?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>To improve app performance:</p>
+            <ul>
+              <li><strong>Update the app:</strong> Make sure you have the latest version from the App Store</li>
+              <li><strong>Restart your device:</strong> A fresh start can resolve many issues</li>
+              <li><strong>Free up storage:</strong> Ensure your device has adequate free space</li>
+              <li><strong>Reduce photo count:</strong> If you have many events with large photos, this can affect performance</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Can I sync my events across devices?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Currently, OhMyDays stores your events locally on your device. Cloud sync across multiple devices is planned for a future update.</p>
+            <p><strong>Tips for now:</strong></p>
+            <ul>
+              <li>Your events are backed up through your regular iPhone/iPad backup</li>
+              <li>When you restore your device from backup, your events will be restored too</li>
+              <li>iCloud backup includes your OhMyDays data</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Which devices is OhMyDays compatible with?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>OhMyDays is available for:</p>
+            <ul>
+              <li><strong>iPhone:</strong> Requires iOS 15.0 or later</li>
+              <li><strong>iPad:</strong> Requires iPadOS 15.0 or later</li>
+            </ul>
+            <p>The app is optimized for all screen sizes, including the latest iPhone and iPad models.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy -->
+    <div class="category">
+      <h2>Privacy & Data</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">Is my data private and secure?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>Absolutely. Your privacy is our priority:</p>
+            <ul>
+              <li><strong>Local storage:</strong> All your events and photos are stored locally on your device</li>
+              <li><strong>No account required:</strong> You don't need to create an account to use OhMyDays</li>
+              <li><strong>No tracking:</strong> We don't track your personal information or usage</li>
+              <li><strong>Minimal permissions:</strong> We only request permissions essential for app features</li>
+            </ul>
+            <p>Read our full <a href="privacy.html">Privacy Policy</a> for more details.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">How do I delete all my data?</div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            <p>To completely remove your data:</p>
+            <ul>
+              <li><strong>Delete individual events:</strong> Open each event and select "Delete Event" from the menu</li>
+              <li><strong>Uninstall the app:</strong> Deleting the app removes all associated data from your device</li>
+            </ul>
+            <p>Since your data is stored locally, uninstalling the app completely removes all your events and settings.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact-section">
+      <h2>Still need help?</h2>
+      <p>We're here for you. Reach out and we'll get back to you as soon as possible.</p>
+      <a href="mailto:support@ohmydays.app">support@ohmydays.app</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="help.html">Help & FAQ</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+    </div>
+    <p class="footer-copyright">&copy; 2025 OhMyDays. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // FAQ Toggle functionality
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', function() {
+        const faqItem = this.parentElement;
+        const answer = faqItem.querySelector('.faq-answer');
+        const isActive = this.classList.contains('active');
+
+        // Close all other FAQs
+        document.querySelectorAll('.faq-question').forEach(q => {
+          q.classList.remove('active');
+          q.parentElement.querySelector('.faq-answer').style.maxHeight = null;
+        });
+
+        // Toggle current FAQ
+        if (!isActive) {
+          this.classList.add('active');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    const clearButton = document.getElementById('clearSearch');
+
+    function performSearch() {
+      const searchTerm = searchInput.value.toLowerCase();
+
+      // Show/hide clear button
+      if (searchTerm !== '') {
+        clearButton.style.display = 'flex';
+      } else {
+        clearButton.style.display = 'none';
+      }
+
+      document.querySelectorAll('.faq-item').forEach(item => {
+        const question = item.querySelector('.faq-question').textContent.toLowerCase();
+        const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
+
+        if (searchTerm === '' || question.includes(searchTerm) || answer.includes(searchTerm)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      // Show/hide category headers
+      document.querySelectorAll('.category').forEach(category => {
+        const items = category.querySelectorAll('.faq-item');
+        let visibleCount = 0;
+        items.forEach(item => {
+          if (item.style.display !== 'none') {
+            visibleCount++;
+          }
+        });
+
+        if (visibleCount === 0 && searchTerm !== '') {
+          category.style.display = 'none';
+        } else {
+          category.style.display = 'block';
+        }
+      });
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', performSearch);
+    }
+
+    if (clearButton) {
+      clearButton.addEventListener('click', function() {
+        searchInput.value = '';
+        performSearch();
+        searchInput.focus();
+      });
+    }
+  </script>
+</body>
+</html>
