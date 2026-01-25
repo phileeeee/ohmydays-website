@@ -94,7 +94,7 @@ html, body {
 /* Phone CTA (tagline + App Store below cards) */
 .phone-cta {
   position: absolute;
-  bottom: 18%;
+  bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -106,7 +106,7 @@ html, body {
 /* Card Shuffle */
 .card-shuffle {
   position: absolute;
-  top: 42%;
+  top: 28%;
   left: 50%;
   transform: translateX(-50%);
   width: 150%;
@@ -256,11 +256,11 @@ html, body {
 
   .card-shuffle {
     height: 200px;
-    top: 38%;
+    top: 26%;
   }
 
   .phone-cta {
-    bottom: 20%;
+    bottom: 80px;
   }
 
   .tagline {
@@ -327,7 +327,7 @@ html, body {
 
   .card-shuffle {
     height: 220px;
-    top: 36%;
+    top: 24%;
   }
 
   .tagline {
@@ -339,7 +339,7 @@ html, body {
   }
 
   .phone-cta {
-    bottom: 22%;
+    bottom: 80px;
   }
 }
 
@@ -393,7 +393,7 @@ html, body {
   .card-shuffle {
     height: 240px;
     width: 160%;
-    top: 34%;
+    top: 22%;
   }
 
   .tagline {
@@ -406,6 +406,6 @@ html, body {
   }
 
   .phone-cta {
-    bottom: 24%;
+    bottom: 80px;
   }
 }
