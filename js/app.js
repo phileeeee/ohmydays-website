@@ -68,7 +68,7 @@ function getCardWidth() {
   if (screenWidth >= 1024) return 120;
   if (screenWidth >= 768) return 110;
   if (screenWidth >= 480) return 95;
-  return 96;
+  return 120;
 }
 
 // Fan slot positions: [translateX multiplier, scale, zIndex]
