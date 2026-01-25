@@ -104,7 +104,7 @@ html, body {
 /* Phone CTA (tagline + App Store below cards) */
 .phone-cta {
   position: absolute;
-  bottom: 8%;
+  bottom: 18%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -129,9 +129,9 @@ html, body {
 
 .shuffle-card {
   position: absolute;
-  width: 80px;
-  height: 120px;
-  border-radius: 10px;
+  width: 96px;
+  height: 144px;
+  border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
   pointer-events: auto;
@@ -167,13 +167,13 @@ html, body {
 }
 
 .card-number {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 800;
   line-height: 1;
 }
 
 .card-label {
-  font-size: 6px;
+  font-size: 7px;
   font-weight: 700;
   letter-spacing: 0.4px;
   margin-bottom: 2px;
@@ -181,7 +181,7 @@ html, body {
 }
 
 .card-title {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
   text-align: center;
   line-height: 1.2;
