@@ -45,11 +45,11 @@ html, body {
 
 /* Subheadline */
 .subheadline {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
   color: var(--color-text-secondary);
   text-align: center;
-  margin-bottom: 100px;
+  margin-bottom: 60px;
   white-space: nowrap;
 }
 
@@ -108,7 +108,7 @@ html, body {
 /* Phone CTA (tagline + App Store below cards) */
 .phone-cta {
   position: absolute;
-  bottom: 38%;
+  bottom: 24%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -120,7 +120,7 @@ html, body {
 /* Card Shuffle */
 .card-shuffle {
   position: absolute;
-  top: 22%;
+  top: 32%;
   left: 50%;
   transform: translateX(-50%);
   width: 150%;
