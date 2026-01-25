@@ -108,7 +108,7 @@ html, body {
 /* Phone CTA (tagline + App Store below cards) */
 .phone-cta {
   position: absolute;
-  bottom: 27%;
+  bottom: 24%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
