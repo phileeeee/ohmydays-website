@@ -1,533 +1,224 @@
 /**
- * OhMyDays Website - Interactive Countdown Demo
- *
- * Note: The Unsplash API key is public by design (client-side usage).
- * Unsplash applies rate limits to prevent abuse.
+ * OhMyDays Website - Card Shuffle Landing Page
  */
 
-// Unsplash API Configuration
-const UNSPLASH_ACCESS_KEY = 'HY5BCW3WaJPamCWBE15DxTbUwGX0vC7dMyVP5oSOto';
-const UNSPLASH_API_URL = 'https://api.unsplash.com';
+// Sample events with Unsplash images (same as app)
+const sampleEvents = [
+  {
+    id: '1',
+    title: 'Baby Oliver',
+    number: '16',
+    label: 'MONTHS AGO',
+    image: 'https://plus.unsplash.com/premium_photo-1701984401372-37d75e47dd6a?w=400&h=500&fit=crop&crop=focalpoint&fp-y=0.65&q=80',
+  },
+  {
+    id: '2',
+    title: 'Bali Trip',
+    number: '52',
+    label: 'DAYS TO GO',
+    image: 'https://plus.unsplash.com/premium_photo-1692897457030-b37d3f6f9abd?w=400&h=500&fit=crop&crop=focalpoint&fp-z=1.5&q=80',
+  },
+  {
+    id: '3',
+    title: 'Our Wedding',
+    number: '8',
+    label: 'YEARS AGO',
+    image: 'https://images.unsplash.com/photo-1596744743105-b1e229d13036?w=400&h=500&fit=crop&q=80',
+  },
+  {
+    id: '4',
+    title: 'New Car',
+    number: '5',
+    label: 'MONTHS TO GO',
+    image: 'https://images.unsplash.com/photo-1576658363469-f5323eab79cf?w=400&h=500&fit=crop&q=80',
+  },
+  {
+    id: '5',
+    title: 'Marathon',
+    number: '30',
+    label: 'DAYS TO GO',
+    image: 'https://images.unsplash.com/photo-1758506971986-b0d0edebd8d5?w=400&h=500&fit=crop&q=80',
+  },
+  {
+    id: '6',
+    title: 'NYE Party',
+    number: '28',
+    label: 'DAYS TO GO',
+    image: 'https://images.unsplash.com/photo-1643186921363-d9fb2191f798?w=400&h=500&fit=crop&crop=focalpoint&fp-z=1.5&q=80',
+  },
+  {
+    id: '7',
+    title: 'Tokyo Summit',
+    number: '3',
+    label: 'MONTHS TO GO',
+    image: 'https://images.unsplash.com/photo-1584660470766-20ac1a28c7fe?w=400&h=500&fit=crop&q=80',
+  },
+  {
+    id: '8',
+    title: "Mochi's Birthday",
+    number: '14',
+    label: 'DAYS TO GO',
+    image: 'https://plus.unsplash.com/premium_photo-1707410050564-df6b5503f220?w=400&h=500&fit=crop&q=80',
+  },
+];
 
-// App State
-const state = {
-  eventTitle: '',
-  eventDate: null,
-  selectedPhoto: null,
-  countdownInterval: null
-};
-
-// DOM Elements
-const elements = {
-  // Steps
-  stepLanding: document.getElementById('step-landing'),
-  stepBackground: document.getElementById('step-background'),
-  stepCountdown: document.getElementById('step-countdown'),
-
-  // Step 1: Landing
-  eventTitle: document.getElementById('event-title'),
-  eventDate: document.getElementById('event-date'),
-  charCurrent: document.getElementById('char-current'),
-  btnContinue: document.getElementById('btn-continue'),
-
-  // Step 2: Background
-  btnBack: document.getElementById('btn-back'),
-  previewCard: document.getElementById('preview-card'),
-  previewDays: document.getElementById('preview-days'),
-  previewLabel: document.getElementById('preview-label'),
-  previewTitle: document.getElementById('preview-title'),
-  uploadTrigger: document.getElementById('upload-trigger'),
-  fileInput: document.getElementById('file-input'),
-  searchToggle: document.getElementById('search-toggle'),
-  unsplashExpanded: document.getElementById('unsplash-expanded'),
-  unsplashSearch: document.getElementById('unsplash-search'),
-  photoGrid: document.getElementById('photo-grid'),
-  unsplashSuggestions: document.getElementById('unsplash-suggestions'),
-  btnCreate: document.getElementById('btn-create'),
-
-  // Step 3: Countdown
-  countdownContainer: document.getElementById('countdown-container'),
-  daysValue: document.getElementById('days-value'),
-  daysLabel: document.getElementById('days-label'),
-  hoursValue: document.getElementById('hours-value'),
-  minsValue: document.getElementById('mins-value'),
-  secsValue: document.getElementById('secs-value'),
-  countdownDirection: document.getElementById('countdown-direction'),
-  countdownEventName: document.getElementById('countdown-event-name'),
-  countdownEventDate: document.getElementById('countdown-event-date'),
-  btnNew: document.getElementById('btn-new')
-};
-
-// Initialize
-function init() {
-  // Set default date to a week from now
-  const nextWeek = new Date();
-  nextWeek.setDate(nextWeek.getDate() + 7);
-  elements.eventDate.value = formatDateForInput(nextWeek);
-  // No min date - allow past dates for "days since" events
-
-  // Event Listeners
-  elements.eventTitle.addEventListener('input', handleTitleInput);
-  elements.eventDate.addEventListener('change', handleDateChange);
-  elements.btnContinue.addEventListener('click', goToStep2);
-  elements.btnBack.addEventListener('click', goToStep1);
-
-  // File upload
-  elements.uploadTrigger.addEventListener('click', () => elements.fileInput.click());
-  elements.fileInput.addEventListener('change', handleFileUpload);
-
-  // Unsplash toggle and search
-  elements.searchToggle.addEventListener('click', toggleUnsplashExpanded);
-  elements.unsplashSearch.addEventListener('input', debounce(searchPhotos, 500));
-
-  elements.btnCreate.addEventListener('click', goToStep3);
-  elements.btnNew.addEventListener('click', resetAndStart);
-
-  // Validate form on load
-  validateForm();
+// Get card width based on screen size
+function getCardWidth() {
+  const screenWidth = window.innerWidth;
+  if (screenWidth >= 1024) return 150;
+  if (screenWidth >= 768) return 140;
+  if (screenWidth >= 480) return 120;
+  return 100;
 }
 
-// Step Navigation
-function showStep(stepElement) {
-  document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
-  stepElement.classList.add('active');
+// Fan slot positions: [translateX multiplier, scale, zIndex]
+// 5 visible slots + 3 hidden slots
+function getFanSlots() {
+  return [
+    [-1.6, 0.82, 2],   // Slot 0: Far left
+    [-0.85, 0.90, 4],  // Slot 1: Left
+    [0, 1.05, 6],      // Slot 2: Center (focus)
+    [0.85, 0.90, 4],   // Slot 3: Right
+    [1.6, 0.82, 2],    // Slot 4: Far right
+    [-0.85, 0.70, 1],  // Slot 5: Hidden behind left
+    [0.85, 0.70, 1],   // Slot 6: Hidden behind right
+    [0, 0.60, 0],      // Slot 7: Hidden behind center
+  ];
 }
 
-function goToStep1() {
-  showStep(elements.stepLanding);
-}
-
-function goToStep2() {
-  state.eventTitle = elements.eventTitle.value.trim();
-  state.eventDate = new Date(elements.eventDate.value);
-
-  // Update preview
-  updatePreview();
-
-  // Load suggested photos based on event title
-  loadSuggestions(state.eventTitle);
-
-  showStep(elements.stepBackground);
-}
-
-// File Upload
-function handleFileUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  if (!file.type.startsWith('image/')) {
-    alert('Please select an image file');
-    return;
+// Map card index to slot based on focused card
+function getCardSlots(focusIndex) {
+  const slots = [];
+  for (let i = 0; i < sampleEvents.length; i++) {
+    const offset = (i - focusIndex + sampleEvents.length) % sampleEvents.length;
+    // Map offset to slot: 0->2 (center), 1->3, 2->4, 3->6, 4->7, 5->5, 6->0, 7->1
+    const slotMapping = [2, 3, 4, 6, 7, 5, 0, 1];
+    slots[i] = slotMapping[offset];
   }
-
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    const imageUrl = event.target.result;
-    state.selectedPhoto = {
-      urls: {
-        small: imageUrl,
-        regular: imageUrl
-      },
-      isLocal: true
-    };
-
-    // Update preview
-    elements.previewCard.style.backgroundImage = `url(${imageUrl})`;
-    elements.previewCard.classList.add('has-image');
-  };
-  reader.readAsDataURL(file);
+  return slots;
 }
 
-// Toggle Unsplash Search
-function toggleUnsplashExpanded() {
-  elements.unsplashExpanded.classList.toggle('active');
-  if (elements.unsplashExpanded.classList.contains('active')) {
-    elements.unsplashSearch.focus();
-  }
+// State
+let focusedCardIndex = 0;
+let cardElements = [];
+
+// Create card HTML
+function createCard(event, index) {
+  const card = document.createElement('div');
+  card.className = 'shuffle-card';
+  card.dataset.index = index;
+  card.style.backgroundImage = `url(${event.image})`;
+
+  card.innerHTML = `
+    <div class="card-content">
+      <span class="card-number">${event.number}</span>
+      <span class="card-label">${event.label}</span>
+      <span class="card-title">${event.title}</span>
+    </div>
+  `;
+
+  card.addEventListener('click', () => handleCardClick(index));
+
+  return card;
 }
 
-// Load Suggestions
-async function loadSuggestions(query) {
-  const searchQuery = query || 'nature';
+// Update card positions
+function updateCardPositions(animate = true) {
+  const cardWidth = getCardWidth();
+  const fanSlots = getFanSlots();
+  const slots = getCardSlots(focusedCardIndex);
 
-  try {
-    const response = await fetch(
-      `${UNSPLASH_API_URL}/search/photos?query=${encodeURIComponent(searchQuery)}&per_page=4&orientation=squarish`,
-      {
-        headers: {
-          'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}`
-        }
-      }
-    );
+  cardElements.forEach((card, index) => {
+    const slot = slots[index];
+    const [xMultiplier, scale, zIndex] = fanSlots[slot];
+    const translateX = xMultiplier * cardWidth;
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch photos');
+    if (animate) {
+      card.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease';
+    } else {
+      card.style.transition = 'none';
     }
 
-    const data = await response.json();
-    displaySuggestions(data.results);
-  } catch (error) {
-    console.error('Unsplash API error:', error);
-    elements.unsplashSuggestions.innerHTML = '';
-  }
-}
-
-function displaySuggestions(photos) {
-  if (photos.length === 0) {
-    elements.unsplashSuggestions.innerHTML = '';
-    return;
-  }
-
-  elements.unsplashSuggestions.innerHTML = photos.map(photo => `
-    <div class="photo-item" data-photo-id="${photo.id}">
-      <img src="${photo.urls.small}" alt="${photo.alt_description || 'Photo'}" loading="lazy">
-    </div>
-  `).join('');
-
-  // Store photos data for selection
-  elements.unsplashSuggestions.photosData = photos;
-
-  // Add click handlers
-  elements.unsplashSuggestions.querySelectorAll('.photo-item').forEach(item => {
-    item.addEventListener('click', () => selectSuggestionPhoto(item.dataset.photoId));
+    card.style.transform = `translateX(${translateX}px) scale(${scale})`;
+    card.style.zIndex = zIndex;
+    card.style.opacity = zIndex === 0 ? 0.5 : 1;
   });
 }
 
-function selectSuggestionPhoto(photoId) {
-  const photos = elements.unsplashSuggestions.photosData || [];
-  const photo = photos.find(p => p.id === photoId);
+// Handle card click
+function handleCardClick(index) {
+  if (index === focusedCardIndex) return;
 
-  if (!photo) return;
+  focusedCardIndex = index;
+  updateCardPositions(true);
+}
 
-  state.selectedPhoto = photo;
+// Initialize card shuffle
+function initCardShuffle() {
+  const container = document.getElementById('card-shuffle');
+  if (!container) return;
 
-  // Update selection UI
-  elements.unsplashSuggestions.querySelectorAll('.photo-item').forEach(item => {
-    item.classList.toggle('selected', item.dataset.photoId === photoId);
+  // Create all cards
+  sampleEvents.forEach((event, index) => {
+    const card = createCard(event, index);
+    container.appendChild(card);
+    cardElements.push(card);
   });
 
-  // Clear grid selection
-  elements.photoGrid.querySelectorAll('.photo-item').forEach(item => {
-    item.classList.remove('selected');
-  });
+  // Set initial positions without animation
+  updateCardPositions(false);
 
-  // Update preview
-  elements.previewCard.style.backgroundImage = `url(${photo.urls.small})`;
-  elements.previewCard.classList.add('has-image');
-}
+  // Animate in after a short delay
+  setTimeout(() => {
+    cardElements.forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateX(0) scale(0.5)';
+    });
 
-function goToStep3() {
-  // Set background image
-  if (state.selectedPhoto) {
-    elements.countdownContainer.style.backgroundImage = `url(${state.selectedPhoto.urls.regular})`;
-    elements.countdownContainer.classList.add('has-image');
-  } else {
-    elements.countdownContainer.classList.remove('has-image');
-  }
-
-  // Set event details
-  elements.countdownEventName.textContent = state.eventTitle.toUpperCase();
-  elements.countdownEventDate.textContent = formatDateForDisplay(state.eventDate);
-
-  // Start countdown
-  startCountdown();
-
-  showStep(elements.stepCountdown);
-}
-
-function resetAndStart() {
-  // Clear state
-  state.eventTitle = '';
-  state.eventDate = null;
-  state.selectedPhoto = null;
-
-  // Clear interval
-  if (state.countdownInterval) {
-    clearInterval(state.countdownInterval);
-  }
-
-  // Reset form
-  elements.eventTitle.value = '';
-  const nextWeek = new Date();
-  nextWeek.setDate(nextWeek.getDate() + 7);
-  elements.eventDate.value = formatDateForInput(nextWeek);
-  elements.charCurrent.textContent = '0';
-
-  // Reset preview
-  elements.previewCard.style.backgroundImage = '';
-  elements.previewCard.classList.remove('has-image');
-
-  // Reset file input
-  elements.fileInput.value = '';
-
-  // Reset Unsplash UI
-  elements.unsplashExpanded.classList.remove('active');
-  elements.unsplashSearch.value = '';
-  elements.photoGrid.innerHTML = '<div class="photo-loading">Search for photos above</div>';
-  elements.unsplashSuggestions.innerHTML = '';
-
-  // Reset countdown background
-  elements.countdownContainer.style.backgroundImage = '';
-  elements.countdownContainer.classList.remove('has-image');
-
-  // Validate and go to step 1
-  validateForm();
-  goToStep1();
-}
-
-// Form Handling
-function handleTitleInput(e) {
-  const value = e.target.value;
-  elements.charCurrent.textContent = value.length;
-  state.eventTitle = value;
-  validateForm();
-}
-
-function handleDateChange(e) {
-  state.eventDate = new Date(e.target.value);
-  validateForm();
-}
-
-function validateForm() {
-  const hasTitle = elements.eventTitle.value.trim().length > 0;
-  const hasDate = elements.eventDate.value !== '';
-  elements.btnContinue.disabled = !(hasTitle && hasDate);
-}
-
-// Preview
-function updatePreview() {
-  const days = calculateDays(state.eventDate);
-  const isPast = days < 0;
-  elements.previewDays.textContent = Math.abs(days);
-  elements.previewLabel.textContent = isPast ? 'DAYS SINCE' : 'DAYS TO GO';
-  elements.previewTitle.textContent = state.eventTitle.toUpperCase();
-}
-
-// Countdown
-function startCountdown() {
-  updateCountdown();
-  state.countdownInterval = setInterval(updateCountdown, 1000);
-}
-
-function updateCountdown() {
-  const now = new Date();
-  const target = new Date(state.eventDate);
-  target.setHours(0, 0, 0, 0);
-
-  const diff = target - now;
-  const isPast = diff < 0;
-  const absDiff = Math.abs(diff);
-
-  const days = Math.floor(absDiff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((absDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const mins = Math.floor((absDiff % (1000 * 60 * 60)) / (1000 * 60));
-  const secs = Math.floor((absDiff % (1000 * 60)) / 1000);
-
-  elements.daysValue.textContent = days;
-  elements.daysLabel.textContent = days === 1 ? 'DAY' : 'DAYS';
-  elements.hoursValue.textContent = String(hours).padStart(2, '0');
-  elements.minsValue.textContent = String(mins).padStart(2, '0');
-  elements.secsValue.textContent = String(secs).padStart(2, '0');
-  elements.countdownDirection.textContent = isPast ? 'SINCE' : 'TO GO';
-}
-
-function calculateDays(targetDate) {
-  const now = new Date();
-  const target = new Date(targetDate);
-  target.setHours(0, 0, 0, 0);
-  now.setHours(0, 0, 0, 0);
-
-  const diff = target - now;
-  return Math.ceil(diff / (1000 * 60 * 60 * 24));
-}
-
-// Unsplash API
-async function searchPhotos() {
-  const query = elements.unsplashSearch.value.trim() || 'nature';
-
-  elements.photoGrid.innerHTML = '<div class="photo-loading">Searching photos...</div>';
-
-  try {
-    const response = await fetch(
-      `${UNSPLASH_API_URL}/search/photos?query=${encodeURIComponent(query)}&per_page=12&orientation=portrait`,
-      {
-        headers: {
-          'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}`
-        }
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch photos');
-    }
-
-    const data = await response.json();
-    displayPhotos(data.results);
-  } catch (error) {
-    console.error('Unsplash API error:', error);
-    elements.photoGrid.innerHTML = '<div class="photo-loading">Failed to load photos. Please try again.</div>';
-  }
-}
-
-function displayPhotos(photos) {
-  if (photos.length === 0) {
-    elements.photoGrid.innerHTML = '<div class="photo-loading">No photos found. Try a different search.</div>';
-    return;
-  }
-
-  elements.photoGrid.innerHTML = photos.map(photo => `
-    <div class="photo-item" data-photo-id="${photo.id}">
-      <img src="${photo.urls.small}" alt="${photo.alt_description || 'Photo'}" loading="lazy">
-    </div>
-  `).join('');
-
-  // Store photos data for selection
-  elements.photoGrid.photosData = photos;
-
-  // Add click handlers
-  elements.photoGrid.querySelectorAll('.photo-item').forEach(item => {
-    item.addEventListener('click', () => selectPhoto(item.dataset.photoId));
-  });
-
-  // Auto-select first photo
-  if (photos.length > 0 && !state.selectedPhoto) {
-    selectPhoto(photos[0].id);
-  }
-}
-
-function selectPhoto(photoId) {
-  const photos = elements.photoGrid.photosData || [];
-  const photo = photos.find(p => p.id === photoId);
-
-  if (!photo) return;
-
-  state.selectedPhoto = photo;
-
-  // Update selection UI
-  elements.photoGrid.querySelectorAll('.photo-item').forEach(item => {
-    item.classList.toggle('selected', item.dataset.photoId === photoId);
-  });
-
-  // Clear suggestion selection
-  elements.unsplashSuggestions.querySelectorAll('.photo-item').forEach(item => {
-    item.classList.remove('selected');
-  });
-
-  // Update preview
-  elements.previewCard.style.backgroundImage = `url(${photo.urls.small})`;
-  elements.previewCard.classList.add('has-image');
-}
-
-// Utility Functions
-function formatDateForInput(date) {
-  return date.toISOString().split('T')[0];
-}
-
-function formatDateForDisplay(date) {
-  return date.toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  });
-}
-
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
-// Floating Cards - Drag and Drop
-let currentZIndex = 100;
-let draggedCard = null;
-let dragOffsetX = 0;
-let dragOffsetY = 0;
-
-function initFloatingCards() {
-  const cards = document.querySelectorAll('.floating-card');
-
-  cards.forEach(card => {
-    // Mouse events
-    card.addEventListener('mousedown', startDrag);
-
-    // Touch events
-    card.addEventListener('touchstart', startDrag, { passive: false });
-  });
-
-  // Global mouse/touch move and end
-  document.addEventListener('mousemove', drag);
-  document.addEventListener('mouseup', endDrag);
-  document.addEventListener('touchmove', drag, { passive: false });
-  document.addEventListener('touchend', endDrag);
-}
-
-function startDrag(e) {
-  e.preventDefault();
-  draggedCard = e.currentTarget;
-
-  // Bring to front
-  currentZIndex++;
-  draggedCard.style.zIndex = currentZIndex;
-  draggedCard.classList.add('dragging');
-  draggedCard.classList.add('front');
-
-  // Get initial position
-  const rect = draggedCard.getBoundingClientRect();
-  const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-  const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-
-  dragOffsetX = clientX - rect.left;
-  dragOffsetY = clientY - rect.top;
-
-  // Convert to absolute positioning if using right/percentage
-  draggedCard.style.left = rect.left + 'px';
-  draggedCard.style.top = rect.top + 'px';
-  draggedCard.style.right = 'auto';
-}
-
-function drag(e) {
-  if (!draggedCard) return;
-  e.preventDefault();
-
-  const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-  const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
-
-  const newX = clientX - dragOffsetX;
-  const newY = clientY - dragOffsetY;
-
-  draggedCard.style.left = newX + 'px';
-  draggedCard.style.top = newY + 'px';
-}
-
-function endDrag() {
-  if (draggedCard) {
-    draggedCard.classList.remove('dragging');
-
-    // Keep front class briefly then remove
+    // Stagger the fan-out animation
     setTimeout(() => {
-      if (draggedCard) {
-        draggedCard.classList.remove('front');
-      }
-    }, 500);
+      updateCardPositions(true);
+    }, 100);
+  }, 300);
 
-    draggedCard = null;
+  // Handle resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      updateCardPositions(false);
+    }, 100);
+  });
+
+  // Add swipe support for touch devices
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  container.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  container.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        // Swipe left - next card
+        focusedCardIndex = (focusedCardIndex + 1) % sampleEvents.length;
+      } else {
+        // Swipe right - previous card
+        focusedCardIndex = (focusedCardIndex - 1 + sampleEvents.length) % sampleEvents.length;
+      }
+      updateCardPositions(true);
+    }
   }
 }
 
-// Legacy click handler (for non-drag clicks)
-function bringToFront(card) {
-  currentZIndex++;
-  card.style.zIndex = currentZIndex;
-}
-
-// Start app
-document.addEventListener('DOMContentLoaded', () => {
-  init();
-  initFloatingCards();
-});
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', initCardShuffle);
