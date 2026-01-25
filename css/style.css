@@ -78,7 +78,7 @@ html, body {
 /* Phone Logo */
 .phone-logo {
   position: absolute;
-  top: 14%;
+  top: 17%;
   left: 0;
   right: 0;
   display: flex;
@@ -94,7 +94,7 @@ html, body {
 /* Phone CTA (tagline + App Store below cards) */
 .phone-cta {
   position: absolute;
-  bottom: 80px;
+  bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -106,7 +106,7 @@ html, body {
 /* Card Shuffle */
 .card-shuffle {
   position: absolute;
-  top: 28%;
+  top: 22%;
   left: 50%;
   transform: translateX(-50%);
   width: 150%;
@@ -229,7 +229,7 @@ html, body {
   }
 
   .phone-logo {
-    top: 13%;
+    top: 16%;
   }
 
   .logo-svg {
@@ -256,11 +256,11 @@ html, body {
 
   .card-shuffle {
     height: 200px;
-    top: 26%;
+    top: 20%;
   }
 
   .phone-cta {
-    bottom: 80px;
+    bottom: 50px;
   }
 
   .tagline {
@@ -296,7 +296,7 @@ html, body {
   }
 
   .phone-logo {
-    top: 12%;
+    top: 15%;
   }
 
   .logo-svg {
@@ -327,7 +327,7 @@ html, body {
 
   .card-shuffle {
     height: 220px;
-    top: 24%;
+    top: 18%;
   }
 
   .tagline {
@@ -339,7 +339,7 @@ html, body {
   }
 
   .phone-cta {
-    bottom: 80px;
+    bottom: 50px;
   }
 }
 
@@ -365,7 +365,7 @@ html, body {
   }
 
   .phone-logo {
-    top: 11%;
+    top: 14%;
   }
 
   .logo-svg {
@@ -393,7 +393,7 @@ html, body {
   .card-shuffle {
     height: 240px;
     width: 160%;
-    top: 22%;
+    top: 16%;
   }
 
   .tagline {
@@ -406,6 +406,6 @@ html, body {
   }
 
   .phone-cta {
-    bottom: 80px;
+    bottom: 50px;
   }
 }
