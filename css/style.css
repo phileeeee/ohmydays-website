@@ -120,7 +120,7 @@ html, body {
 /* Card Shuffle */
 .card-shuffle {
   position: absolute;
-  top: 32%;
+  top: 24%;
   left: 50%;
   transform: translateX(-50%);
   width: 150%;
