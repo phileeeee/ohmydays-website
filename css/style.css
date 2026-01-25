@@ -20,13 +20,14 @@ html, body {
 
 /* Landing Page */
 .landing {
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px 24px 40px;
+  padding: 42px 24px 0;
   background: linear-gradient(135deg, rgba(221, 230, 255, 0.35) 0%, rgba(255, 239, 205, 0.35) 100%);
+  overflow: hidden;
 }
 
 /* Headline */
@@ -58,14 +59,13 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: -40px;
+  flex: 1;
 }
 
 .phone-frame {
   position: relative;
   width: 100%;
   max-width: 220px;
-  clip-path: inset(0 0 12% 0);
 }
 
 .phone-image {
@@ -93,7 +93,7 @@ html, body {
 /* Phone CTA (tagline + App Store below cards) */
 .phone-cta {
   position: absolute;
-  bottom: 20%;
+  bottom: 8%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -105,7 +105,7 @@ html, body {
 /* Card Shuffle */
 .card-shuffle {
   position: absolute;
-  top: 32%;
+  top: 55%;
   left: 50%;
   transform: translateX(-50%);
   width: 150%;
@@ -205,31 +205,10 @@ html, body {
   width: auto;
 }
 
-/* Footer */
-.landing-footer {
-  margin-top: auto;
-  padding-top: 40px;
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-}
-
-.landing-footer a {
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.landing-footer a:hover {
-  color: var(--color-text);
-}
-
 /* Responsive */
 @media (min-width: 480px) {
   .landing {
-    padding-top: 80px;
+    padding-top: 56px;
   }
 
   .headline-container {
@@ -276,7 +255,11 @@ html, body {
 
   .card-shuffle {
     height: 200px;
-    top: 30%;
+    top: 52%;
+  }
+
+  .phone-cta {
+    bottom: 10%;
   }
 
   .tagline {
@@ -290,17 +273,17 @@ html, body {
 
 @media (min-width: 768px) {
   .landing {
-    padding-top: 100px;
+    padding-top: 70px;
   }
 
   .headline-container {
     max-width: 420px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   .subheadline {
     font-size: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 32px;
   }
 
   .phone-section {
@@ -343,7 +326,7 @@ html, body {
 
   .card-shuffle {
     height: 220px;
-    top: 28%;
+    top: 50%;
   }
 
   .tagline {
@@ -355,13 +338,21 @@ html, body {
   }
 
   .phone-cta {
-    bottom: 22%;
+    bottom: 12%;
   }
 }
 
 @media (min-width: 1024px) {
+  .landing {
+    padding-top: 80px;
+  }
+
   .headline-container {
     max-width: 450px;
+  }
+
+  .subheadline {
+    margin-bottom: 36px;
   }
 
   .phone-section {
@@ -401,7 +392,7 @@ html, body {
   .card-shuffle {
     height: 240px;
     width: 160%;
-    top: 26%;
+    top: 48%;
   }
 
   .tagline {
@@ -414,6 +405,6 @@ html, body {
   }
 
   .phone-cta {
-    bottom: 24%;
+    bottom: 14%;
   }
 }
