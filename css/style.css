@@ -79,7 +79,7 @@ html, body {
 /* Phone Logo */
 .phone-logo {
   position: absolute;
-  top: 17%;
+  top: 14%;
   left: 0;
   right: 0;
   display: flex;
@@ -95,7 +95,7 @@ html, body {
 /* Phone CTA (tagline + App Store below cards) */
 .phone-cta {
   position: absolute;
-  bottom: 50px;
+  bottom: 12%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -230,7 +230,7 @@ html, body {
   }
 
   .phone-logo {
-    top: 16%;
+    top: 13%;
   }
 
   .logo-svg {
@@ -261,7 +261,7 @@ html, body {
   }
 
   .phone-cta {
-    bottom: 50px;
+    bottom: 14%;
   }
 
   .tagline {
@@ -297,7 +297,7 @@ html, body {
   }
 
   .phone-logo {
-    top: 15%;
+    top: 12%;
   }
 
   .logo-svg {
@@ -340,7 +340,7 @@ html, body {
   }
 
   .phone-cta {
-    bottom: 50px;
+    bottom: 16%;
   }
 }
 
@@ -366,7 +366,7 @@ html, body {
   }
 
   .phone-logo {
-    top: 14%;
+    top: 11%;
   }
 
   .logo-svg {
@@ -407,6 +407,6 @@ html, body {
   }
 
   .phone-cta {
-    bottom: 50px;
+    bottom: 18%;
   }
 }
