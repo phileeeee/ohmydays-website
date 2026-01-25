@@ -76,9 +76,13 @@ html, body {
   display: block;
 }
 
-/* Show short phone on mobile, cut phone on desktop */
+/* Show short phone on mobile, tablet phone on iPad, cut phone on desktop */
 .phone-short {
   display: block;
+}
+
+.phone-tablet {
+  display: none;
 }
 
 .phone-cut {
@@ -104,7 +108,7 @@ html, body {
 /* Phone CTA (tagline + App Store below cards) */
 .phone-cta {
   position: absolute;
-  bottom: 28%;
+  bottom: 38%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -116,7 +120,7 @@ html, body {
 /* Card Shuffle */
 .card-shuffle {
   position: absolute;
-  top: 28%;
+  top: 22%;
   left: 50%;
   transform: translateX(-50%);
   width: 150%;
@@ -236,13 +240,17 @@ html, body {
     white-space: normal;
   }
 
-  /* Switch to cut phone on larger screens */
+  /* Switch to full phone on tablet */
   .phone-short {
     display: none;
   }
 
-  .phone-cut {
+  .phone-tablet {
     display: block;
+  }
+
+  .phone-cut {
+    display: none;
   }
 
   .phone-section {
@@ -285,7 +293,12 @@ html, body {
   }
 
   .phone-cta {
-    bottom: 25%;
+    bottom: 18%;
+  }
+
+  .card-shuffle {
+    height: 200px;
+    top: 28%;
   }
 
   .tagline {
@@ -369,6 +382,19 @@ html, body {
 }
 
 @media (min-width: 1024px) {
+  /* Switch to cut phone on desktop */
+  .phone-short {
+    display: none;
+  }
+
+  .phone-tablet {
+    display: none;
+  }
+
+  .phone-cut {
+    display: block;
+  }
+
   .landing {
     padding-top: 56px;
   }
