@@ -65,10 +65,10 @@ const sampleEvents = [
 // Get card width based on screen size
 function getCardWidth() {
   const screenWidth = window.innerWidth;
-  if (screenWidth >= 1024) return 150;
-  if (screenWidth >= 768) return 140;
-  if (screenWidth >= 480) return 120;
-  return 100;
+  if (screenWidth >= 1024) return 120;
+  if (screenWidth >= 768) return 110;
+  if (screenWidth >= 480) return 95;
+  return 80;
 }
 
 // Fan slot positions: [translateX multiplier, scale, zIndex]

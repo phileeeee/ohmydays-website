@@ -54,16 +54,18 @@ html, body {
 .phone-section {
   position: relative;
   width: 100%;
-  max-width: 380px;
+  max-width: 280px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: -40px;
 }
 
 .phone-frame {
   position: relative;
   width: 100%;
-  max-width: 280px;
+  max-width: 220px;
+  clip-path: inset(0 0 12% 0);
 }
 
 .phone-image {
@@ -72,47 +74,42 @@ html, body {
   display: block;
 }
 
-.phone-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
 /* Phone Logo */
 .phone-logo {
+  position: absolute;
+  top: 18%;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 45px;
 }
 
 .logo-svg {
-  height: 32px;
+  height: 24px;
   width: auto;
 }
 
-/* Phone Footer (tagline + App Store inside phone) */
-.phone-footer {
+/* Phone CTA (tagline + App Store below cards) */
+.phone-cta {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 20px;
+  z-index: 10;
 }
 
 /* Card Shuffle */
 .card-shuffle {
   position: absolute;
-  top: 38%;
+  top: 32%;
   left: 50%;
   transform: translateX(-50%);
   width: 150%;
-  height: 200px;
+  height: 180px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,15 +118,15 @@ html, body {
 
 .shuffle-card {
   position: absolute;
-  width: 100px;
-  height: 150px;
-  border-radius: 12px;
+  width: 80px;
+  height: 120px;
+  border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
   pointer-events: auto;
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
               box-shadow 0.3s ease;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   background-size: cover;
   background-position: center;
 }
@@ -159,21 +156,21 @@ html, body {
 }
 
 .card-number {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 800;
   line-height: 1;
 }
 
 .card-label {
-  font-size: 7px;
+  font-size: 6px;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   margin-bottom: 2px;
   opacity: 0.95;
 }
 
 .card-title {
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 700;
   text-align: center;
   line-height: 1.2;
@@ -181,11 +178,12 @@ html, body {
 
 /* Tagline (inside phone) */
 .tagline {
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 400;
   color: var(--color-text-secondary);
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+  white-space: nowrap;
 }
 
 /* App Store Button (inside phone) */
@@ -203,7 +201,7 @@ html, body {
 }
 
 .app-store-button img {
-  height: 36px;
+  height: 28px;
   width: auto;
 }
 
@@ -235,11 +233,139 @@ html, body {
   }
 
   .headline-container {
-    max-width: 440px;
+    max-width: 380px;
+  }
+
+  .subheadline {
+    font-size: 18px;
+  }
+
+  .phone-section {
+    max-width: 320px;
+  }
+
+  .phone-frame {
+    max-width: 260px;
+  }
+
+  .phone-logo {
+    top: 17%;
+  }
+
+  .logo-svg {
+    height: 28px;
+  }
+
+  .shuffle-card {
+    width: 95px;
+    height: 142px;
+    border-radius: 11px;
+  }
+
+  .card-number {
+    font-size: 26px;
+  }
+
+  .card-label {
+    font-size: 7px;
+  }
+
+  .card-title {
+    font-size: 10px;
+  }
+
+  .card-shuffle {
+    height: 200px;
+    top: 30%;
+  }
+
+  .tagline {
+    font-size: 12px;
+  }
+
+  .app-store-button img {
+    height: 32px;
+  }
+}
+
+@media (min-width: 768px) {
+  .landing {
+    padding-top: 100px;
+  }
+
+  .headline-container {
+    max-width: 420px;
+    margin-bottom: 20px;
   }
 
   .subheadline {
     font-size: 20px;
+    margin-bottom: 50px;
+  }
+
+  .phone-section {
+    max-width: 360px;
+  }
+
+  .phone-frame {
+    max-width: 300px;
+  }
+
+  .phone-logo {
+    top: 16%;
+  }
+
+  .logo-svg {
+    height: 34px;
+  }
+
+  .shuffle-card {
+    width: 110px;
+    height: 165px;
+    border-radius: 13px;
+  }
+
+  .card-number {
+    font-size: 32px;
+  }
+
+  .card-label {
+    font-size: 8px;
+  }
+
+  .card-title {
+    font-size: 12px;
+  }
+
+  .card-content {
+    padding: 10px 8px;
+  }
+
+  .card-shuffle {
+    height: 220px;
+    top: 28%;
+  }
+
+  .tagline {
+    font-size: 13px;
+  }
+
+  .app-store-button img {
+    height: 36px;
+  }
+
+  .phone-cta {
+    bottom: 22%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .headline-container {
+    max-width: 450px;
+  }
+
+  .phone-section {
+    max-width: 400px;
   }
 
   .phone-frame {
@@ -247,11 +373,11 @@ html, body {
   }
 
   .phone-logo {
-    padding-top: 55px;
+    top: 15%;
   }
 
   .logo-svg {
-    height: 36px;
+    height: 38px;
   }
 
   .shuffle-card {
@@ -261,7 +387,7 @@ html, body {
   }
 
   .card-number {
-    font-size: 34px;
+    font-size: 36px;
   }
 
   .card-label {
@@ -274,135 +400,20 @@ html, body {
 
   .card-shuffle {
     height: 240px;
-    top: 36%;
-  }
-
-  .tagline {
-    font-size: 15px;
-  }
-
-  .app-store-button img {
-    height: 40px;
-  }
-}
-
-@media (min-width: 768px) {
-  .landing {
-    padding-top: 100px;
-  }
-
-  .headline-container {
-    max-width: 520px;
-    margin-bottom: 20px;
-  }
-
-  .subheadline {
-    font-size: 22px;
-    margin-bottom: 50px;
-  }
-
-  .phone-frame {
-    max-width: 360px;
-  }
-
-  .phone-logo {
-    padding-top: 65px;
-  }
-
-  .logo-svg {
-    height: 42px;
-  }
-
-  .shuffle-card {
-    width: 140px;
-    height: 210px;
-    border-radius: 16px;
-  }
-
-  .card-number {
-    font-size: 40px;
-  }
-
-  .card-label {
-    font-size: 9px;
-  }
-
-  .card-title {
-    font-size: 15px;
-  }
-
-  .card-content {
-    padding: 12px 10px;
-  }
-
-  .card-shuffle {
-    height: 280px;
-    top: 34%;
-  }
-
-  .tagline {
-    font-size: 16px;
-  }
-
-  .app-store-button img {
-    height: 44px;
-  }
-
-  .phone-footer {
-    padding-bottom: 30px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .headline-container {
-    max-width: 560px;
-  }
-
-  .phone-frame {
-    max-width: 380px;
-  }
-
-  .phone-logo {
-    padding-top: 75px;
-  }
-
-  .logo-svg {
-    height: 46px;
-  }
-
-  .shuffle-card {
-    width: 150px;
-    height: 225px;
-  }
-
-  .card-number {
-    font-size: 44px;
-  }
-
-  .card-label {
-    font-size: 10px;
-  }
-
-  .card-title {
-    font-size: 16px;
-  }
-
-  .card-shuffle {
-    height: 300px;
     width: 160%;
-    top: 32%;
+    top: 26%;
   }
 
   .tagline {
-    font-size: 17px;
-    margin-bottom: 16px;
+    font-size: 14px;
+    margin-bottom: 12px;
   }
 
   .app-store-button img {
-    height: 46px;
+    height: 38px;
   }
 
-  .phone-footer {
-    padding-bottom: 40px;
+  .phone-cta {
+    bottom: 24%;
   }
 }
