@@ -108,7 +108,7 @@ html, body {
 /* Phone CTA (tagline + App Store below cards) */
 .phone-cta {
   position: absolute;
-  bottom: 24%;
+  bottom: 27%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -197,7 +197,7 @@ html, body {
   font-weight: 400;
   color: var(--color-text);
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 24px;
   white-space: nowrap;
 }
 
