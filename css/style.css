@@ -76,8 +76,8 @@ html, body {
   display: block;
 }
 
-/* Show full phone on mobile, cut phone on desktop */
-.phone-full {
+/* Show short phone on mobile, cut phone on desktop */
+.phone-short {
   display: block;
 }
 
@@ -104,7 +104,7 @@ html, body {
 /* Phone CTA (tagline + App Store below cards) */
 .phone-cta {
   position: absolute;
-  bottom: 18%;
+  bottom: 8%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -116,7 +116,7 @@ html, body {
 /* Card Shuffle */
 .card-shuffle {
   position: absolute;
-  top: 22%;
+  top: 35%;
   left: 50%;
   transform: translateX(-50%);
   width: 150%;
@@ -237,7 +237,7 @@ html, body {
   }
 
   /* Switch to cut phone on larger screens */
-  .phone-full {
+  .phone-short {
     display: none;
   }
 
