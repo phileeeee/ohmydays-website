@@ -521,8 +521,18 @@ html, body {
 
 /* iPad portrait - move CTA up higher */
 @media (min-width: 768px) and (pointer: coarse) and (orientation: portrait) {
+  .landing {
+    padding-top: 98px;
+  }
+
   .phone-cta {
     bottom: 26%;
+    transform: translate(-50%, -70px);
+  }
+
+  .tagline {
+    font-size: 20px;
+    margin-bottom: 44px;
   }
 }
 
