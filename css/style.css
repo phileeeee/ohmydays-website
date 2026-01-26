@@ -518,3 +518,17 @@ html, body {
     height: 40px;
   }
 }
+
+/* iPad portrait - move CTA up higher */
+@media (min-width: 768px) and (pointer: coarse) and (orientation: portrait) {
+  .phone-cta {
+    bottom: 26%;
+  }
+}
+
+/* iPad landscape - move cards down slightly */
+@media (min-width: 768px) and (pointer: coarse) and (orientation: landscape) {
+  .card-shuffle {
+    top: 24%;
+  }
+}
