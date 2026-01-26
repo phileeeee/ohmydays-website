@@ -220,6 +220,13 @@ html, body {
   width: auto;
 }
 
+/* Shorter phones (e.g. iPhone 16e) */
+@media (max-width: 479px) and (max-height: 750px) {
+  .phone-cta {
+    bottom: 14%;
+  }
+}
+
 /* Responsive */
 @media (min-width: 480px) {
   html, body {
