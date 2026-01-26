@@ -467,3 +467,54 @@ html, body {
     bottom: 28%;
   }
 }
+
+/* iPad override - touch devices at tablet+ sizes */
+@media (min-width: 768px) and (pointer: coarse) {
+  /* Use full Phone.png on iPad */
+  .phone-short {
+    display: none;
+  }
+
+  .phone-tablet {
+    display: block;
+  }
+
+  .phone-cut {
+    display: none;
+  }
+
+  .shuffle-card {
+    width: 140px;
+    height: 210px;
+    border-radius: 16px;
+  }
+
+  .card-number {
+    font-size: 40px;
+  }
+
+  .card-label {
+    font-size: 9px;
+  }
+
+  .card-title {
+    font-size: 14px;
+  }
+
+  .card-shuffle {
+    height: 280px;
+    width: 170%;
+  }
+
+  .phone-cta {
+    bottom: 18%;
+  }
+
+  .tagline {
+    font-size: 15px;
+  }
+
+  .app-store-button img {
+    height: 40px;
+  }
+}
