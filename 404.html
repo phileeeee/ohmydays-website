@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OhMyDays - Shared Event</title>
+  <meta name="description" content="Someone shared an event with you on OhMyDays.">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="OhMyDays - Shared Event">
+  <meta property="og:description" content="Someone shared an event with you. Open in OhMyDays to view and save it.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --color-bg: #ffffff;
+      --color-text: #000000;
+      --color-text-secondary: #666666;
+      --color-border: #e5e5e5;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font-family);
+      background: var(--color-bg);
+      color: var(--color-text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .app-name {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    /* Event card */
+    .event-card {
+      width: 100%;
+      max-width: 360px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 32px 0;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      position: relative;
+      aspect-ratio: 1 / 1.2;
+      display: none;
+    }
+
+    .event-card.visible {
+      display: block;
+    }
+
+    .event-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #B8C6DB, #9BA4B4);
+    }
+
+    .event-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .event-content {
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: #ffffff;
+    }
+
+    .event-countdown {
+      font-size: 56px;
+      font-weight: 800;
+    }
+
+    .event-label {
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    .event-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    /* Loading / messages */
+    .message {
+      color: var(--color-text-secondary);
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 400px;
+      margin: 8px 0 32px;
+    }
+
+    .loading-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--color-border);
+      border-top-color: var(--color-text);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 32px 0;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .expired-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--color-text);
+      color: var(--color-bg);
+      padding: 16px 32px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 600;
+      transition: opacity 0.2s ease;
+    }
+
+    .download-btn:hover {
+      opacity: 0.85;
+    }
+
+    .download-btn svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .footer-text {
+      color: #999;
+      font-size: 13px;
+      margin-top: 24px;
+    }
+
+    .footer-text a {
+      color: var(--color-text-secondary);
+    }
+
+    #loading-state, #event-state, #expired-state, #error-state {
+      display: none;
+    }
+
+    #loading-state.active, #event-state.active, #expired-state.active, #error-state.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="/assets/logo.svg" alt="OhMyDays" class="logo">
+
+    <!-- Loading State -->
+    <div id="loading-state" class="active">
+      <div class="loading-spinner"></div>
+      <p class="message">Loading shared event...</p>
+    </div>
+
+    <!-- Event State -->
+    <div id="event-state">
+      <div class="event-card" id="event-card">
+        <div class="event-bg" id="event-bg"></div>
+        <div class="event-overlay"></div>
+        <div class="event-content">
+          <div class="event-countdown" id="event-countdown"></div>
+          <div class="event-label" id="event-label"></div>
+          <div class="event-title" id="event-title"></div>
+        </div>
+      </div>
+      <p class="message">Someone shared this event with you. Download OhMyDays to save it.</p>
+      <a href="https://apps.apple.com/sg/app/ohmydays/id6757750366" class="download-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download on the App Store
+      </a>
+      <p class="footer-text">
+        <a href="/">ohmydays.app</a>
+      </p>
+    </div>
+
+    <!-- Expired State -->
+    <div id="expired-state">
+      <div class="expired-icon">&#9203;</div>
+      <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 4px;">Link Expired</h2>
+      <p class="message">This shared event link has expired or is no longer available. Share links are valid for 12 hours.</p>
+      <a href="https://apps.apple.com/sg/app/ohmydays/id6757750366" class="download-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Get OhMyDays
+      </a>
+      <p class="footer-text">
+        <a href="/">ohmydays.app</a>
+      </p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state">
+      <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 4px;">Page Not Found</h2>
+      <p class="message">The page you're looking for doesn't exist.</p>
+      <a href="/" class="download-btn" style="background: transparent; color: var(--color-text); border: 2px solid var(--color-border);">
+        Go to OhMyDays
+      </a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js';
+    import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: 'AIzaSyDypjH-AJg1Ad5LZvFZEblh8oBbRK1i2vY',
+      projectId: 'ohmydays-e6e56',
+      storageBucket: 'ohmydays-e6e56.firebasestorage.app',
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const loadingEl = document.getElementById('loading-state');
+    const eventEl = document.getElementById('event-state');
+    const expiredEl = document.getElementById('expired-state');
+    const errorEl = document.getElementById('error-state');
+
+    function showState(state) {
+      [loadingEl, eventEl, expiredEl, errorEl].forEach(el => el.classList.remove('active'));
+      state.classList.add('active');
+    }
+
+    // Check if this is a shared event URL
+    const path = window.location.pathname;
+    const match = path.match(/^\/event\/([a-zA-Z0-9]+)$/);
+
+    if (match) {
+      const shareId = match[1];
+      loadSharedEvent(shareId);
+    } else {
+      // Not an event URL — show generic 404
+      showState(errorEl);
+    }
+
+    async function loadSharedEvent(shareId) {
+      try {
+        const docRef = doc(db, 'sharedEvents', shareId);
+        const docSnap = await getDoc(docRef);
+
+        if (!docSnap.exists()) {
+          showState(expiredEl);
+          return;
+        }
+
+        const data = docSnap.data();
+
+        // Check expiry
+        const expiresAt = data.expiresAt?.toDate ? data.expiresAt.toDate() : new Date(data.expiresAt);
+        if (expiresAt < new Date()) {
+          showState(expiredEl);
+          return;
+        }
+
+        // Calculate countdown
+        const eventDate = data.date?.toDate ? data.date.toDate() : new Date(data.date);
+        const now = new Date();
+        const diffMs = eventDate.getTime() - now.getTime();
+        const totalDays = Math.abs(Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+        const isFuture = diffMs > 0;
+
+        // Populate event card
+        document.getElementById('event-countdown').textContent = totalDays === 0 ? 'TODAY' : totalDays;
+        if (totalDays !== 0) {
+          const dayWord = totalDays === 1 ? 'day' : 'days';
+          const direction = isFuture ? 'to go' : 'ago';
+          document.getElementById('event-label').textContent = dayWord + ' ' + direction;
+        }
+        document.getElementById('event-title').textContent = data.title || 'Untitled Event';
+
+        // Set background
+        const bgEl = document.getElementById('event-bg');
+        if (data.photoUrl) {
+          bgEl.style.background = 'url(' + data.photoUrl + ') center/cover no-repeat';
+        } else if (data.photoBackground) {
+          if (data.photoBackground.startsWith('gradient:')) {
+            const colors = data.photoBackground.replace('gradient:', '').split(',');
+            bgEl.style.background = 'linear-gradient(135deg, ' + (colors[0] || '#B8C6DB') + ', ' + (colors[1] || '#9BA4B4') + ')';
+          } else if (data.photoBackground.startsWith('#')) {
+            bgEl.style.background = data.photoBackground;
+          }
+        }
+
+        document.getElementById('event-card').classList.add('visible');
+        showState(eventEl);
+      } catch (err) {
+        console.error('Error loading shared event:', err);
+        showState(expiredEl);
+      }
+    }
+  </script>
+</body>
+</html>

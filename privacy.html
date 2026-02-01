@@ -219,10 +219,10 @@
   <!-- Content -->
   <div class="content-container">
     <h1>Privacy Policy</h1>
-    <p class="last-updated"><strong>Last Updated:</strong> January 15, 2026</p>
+    <p class="last-updated"><strong>Last Updated:</strong> February 1, 2026</p>
 
     <div class="highlight-box">
-      <p><strong>Privacy First:</strong> OhMyDays is designed with your privacy in mind. All your events, photos, and personal data are stored locally on your device. We don't have accounts, we don't track you, and we don't sell your data.</p>
+      <p><strong>Privacy First:</strong> OhMyDays is designed with your privacy in mind. All your events, photos, and personal data are stored locally on your device. We don't have accounts, we don't track you, and we don't sell your data. When you use the "Share a Copy" feature, limited event data is temporarily stored on our servers for up to 12 hours to enable sharing — see Section 1.1 and 4.4 for details.</p>
     </div>
 
     <h2>Introduction</h2>
@@ -248,7 +248,21 @@
     </ul>
     <p><strong>Important:</strong> This data stays on your device. We cannot access, view, or retrieve this information.</p>
 
-    <h3>1.2 Information Collected for Subscriptions</h3>
+    <h3>1.2 Information Temporarily Stored When Sharing</h3>
+    <p>When you use the "Share a Copy" feature (Pro only), the following event data is temporarily uploaded to our servers (Firebase):</p>
+    <ul>
+      <li><strong>Event details:</strong> Title, date, end date, category, type, and display settings</li>
+      <li><strong>Event photo:</strong> A compressed version of the event's background photo (if applicable)</li>
+    </ul>
+    <p>This data is:</p>
+    <ul>
+      <li><strong>Temporary:</strong> Automatically expires and is deleted after 12 hours</li>
+      <li><strong>Minimal:</strong> Only contains the information needed to recreate the event</li>
+      <li><strong>User-initiated:</strong> Only uploaded when you explicitly tap "Share Link"</li>
+      <li><strong>Anonymised:</strong> No personal identifiers, account info, or device info is attached</li>
+    </ul>
+
+    <h3>1.3 Information Collected for Subscriptions</h3>
     <p>If you purchase OhMyDays Pro:</p>
     <ul>
       <li><strong>Subscription status:</strong> We receive confirmation of your subscription status from the App Store</li>
@@ -256,7 +270,7 @@
     </ul>
     <p><strong>Note:</strong> All payment information is handled directly by Apple through the App Store. We never see or store your payment details, credit card numbers, or billing information.</p>
 
-    <h3>1.3 Basic Analytics (Anonymous)</h3>
+    <h3>1.4 Basic Analytics (Anonymous)</h3>
     <p>We may collect anonymous, aggregated analytics to improve the app:</p>
     <ul>
       <li>App crashes and error reports</li>
@@ -265,7 +279,7 @@
     </ul>
     <p>This data is anonymized and cannot be used to identify you personally.</p>
 
-    <h3>1.4 Information We Do NOT Collect</h3>
+    <h3>1.5 Information We Do NOT Collect</h3>
     <ul>
       <li>Your name, email, or contact information</li>
       <li>Your location or GPS data</li>
@@ -311,11 +325,12 @@
     <p>OhMyDays uses a local-first architecture, meaning:</p>
     <ul>
       <li>All your data is stored on your device</li>
-      <li>No cloud servers store your personal information</li>
+      <li>No cloud servers store your personal information permanently</li>
       <li>Your data is protected by your device's security (passcode, Face ID, Touch ID)</li>
       <li>Data is included in your device backups (iCloud or iTunes)</li>
     </ul>
-    <p>While we take reasonable measures to protect your data, no method of electronic storage is 100% secure. We cannot guarantee absolute security, but our local-first approach means your data never leaves your device.</p>
+    <p>The only exception is the "Share a Copy" feature, which temporarily uploads event data to Firebase (Google Cloud) for up to 12 hours to generate a shareable link. This data is automatically deleted after expiry.</p>
+    <p>While we take reasonable measures to protect your data, no method of electronic storage is 100% secure. We cannot guarantee absolute security, but our local-first approach means your data never leaves your device unless you explicitly choose to share it.</p>
 
     <h3>3.2 Photo Access</h3>
     <p>When you add photos to events:</p>
@@ -344,6 +359,7 @@
       <li><strong>Apple App Store:</strong> For processing subscriptions and in-app purchases</li>
       <li><strong>Apple Analytics:</strong> For anonymous crash reporting and basic usage statistics</li>
       <li><strong>Unsplash:</strong> For searching and selecting free images to use as event backgrounds. When you use the Unsplash image search, your search queries are sent to Unsplash. Unsplash has its own <a href="https://unsplash.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></li>
+      <li><strong>Firebase (Google Cloud):</strong> Used for the "Share a Copy" feature. When you share a copy of an event, event details and photos are temporarily stored on Firebase servers (Firestore and Cloud Storage) for up to 12 hours. Google's privacy policy applies to this data while stored: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
     </ul>
     <p>These services have their own privacy policies. We encourage you to review them.</p>
 
@@ -351,11 +367,19 @@
     <p>The App or our website may contain links to third-party websites or services (such as the App Store or Unsplash). We are not responsible for the privacy practices or content of these external sites. We encourage you to review the privacy policies of any third-party services you interact with.</p>
 
     <h3>4.4 Sharing Features</h3>
-    <p>When you use the share feature:</p>
+    <p><strong>Share Cover (counter card images):</strong></p>
     <ul>
-      <li>Counter cards are generated locally on your device</li>
+      <li>Counter card images are generated locally on your device</li>
       <li>Sharing is handled by iOS's built-in share sheet</li>
-      <li>We do not upload or store shared images on any server</li>
+      <li>We do not upload or store shared cover images on any server</li>
+    </ul>
+    <p><strong>Share a Copy (event link — Pro only):</strong></p>
+    <ul>
+      <li>Event details (title, date, category, display settings) and a compressed event photo are temporarily uploaded to Firebase</li>
+      <li>A shareable link is generated and shared via iOS's built-in share sheet</li>
+      <li>The shared data automatically expires and is deleted after 12 hours</li>
+      <li>Anyone with the link can view and save the event during the 12-hour window</li>
+      <li>No personal information, account data, or device identifiers are included in the shared data</li>
     </ul>
 
     <h2>5. Your Privacy Rights</h2>
@@ -425,7 +449,8 @@
 
     <h2>Summary</h2>
     <ul>
-      <li><strong>Your data stays on your device</strong> - We don't have servers storing your information</li>
+      <li><strong>Your data stays on your device</strong> - We don't have servers storing your information permanently</li>
+      <li><strong>Sharing is temporary</strong> - "Share a Copy" uploads event data for 12 hours only, then it's deleted</li>
       <li><strong>No accounts required</strong> - Use the app without sharing personal details</li>
       <li><strong>No tracking</strong> - We don't track your activity or build profiles</li>
       <li><strong>No selling data</strong> - We never sell your information to anyone</li>

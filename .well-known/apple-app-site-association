@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "24WD69VGHX.com.ohmydays.app",
+        "paths": ["/event/*"]
+      }
+    ]
+  }
+}
